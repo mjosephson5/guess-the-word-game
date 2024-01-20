@@ -31,35 +31,57 @@ const placeholder = function (word) {
            // push the number of letters in the array in terms of dots
            dotArray.push("●");
     }
-  progress.innerText = dotArray.join("");
-
     //set the inner text to the array
-
-
+  progress.innerText = dotArray.join("");
+    
 };
 
 placeholder(word);
 
 button.addEventListener("click", function (e){
     e.preventDefault();
+    //empty message paragraph
+    message.innerText = "";
+    //grab what was entered in the input
     const guess = textInput.value;
-    console.log(guess);
-    textInput.value = "";
-    message = "";
-    validateInput(input);
+    //save result of function call to new variable
+    const goodGuess = validateInput(input);
 
+
+    textInput.value = "";
 });
 
-//function purpose to validate player's input
+console.log(goodGuess);
+
+
+//function purpose to validate player's input 
 const validateInput = function (input){
+    //regular expression validates input as letter only
     const acceptedLetter = /[a-zA-Z]/
+    //check if input is empty
     if(input.length === 0) {
         message.innerText = "Guess a letter.";
+    //check if player has entered more than one letter
     } else if(input.length > 1) {
         message.innerText = "Oops, only guess one letter at a time";
+    //check if player entered character that doesn't match the regular expression
     } else if(input.match(acceptedLetter)) {
         message.innertext = "Please enter a letter from A to Z.";
     } else { 
         return input;
+    }
+};
+
+//function to capture input
+const makeGuess = function (guess) {
+    guess = guess.toUpperCase();
+
+    //check if array already contains letter
+    if(guessedLetters.includes(guess)) {
+        message.innerText = "Oh no, you already guessed that letter, try again.";
+    } else {
+        guessedLetters.push(guess);
+        console.log(guessedLetters);
+
     }
 };
